@@ -1,5 +1,6 @@
 package com.canhlabs.shorten.disruptor;
 
+import com.canhlabs.shorten.share.dto.ShortenDto;
 import com.lmax.disruptor.BusySpinWaitStrategy;
 import com.lmax.disruptor.RingBuffer;
 import com.lmax.disruptor.WaitStrategy;
@@ -27,7 +28,7 @@ public class SingleEventShortenProducer implements EventProducer {
         this.singleEventShortenConsumer = consumer;
     }
 
-    RingBuffer<ValueEvent<String>> ringBuffer;
+    RingBuffer<ValueEvent<ShortenDto>> ringBuffer;
 
     /**
      * start Disruptor for application
@@ -37,7 +38,7 @@ public class SingleEventShortenProducer implements EventProducer {
         ThreadFactory threadFactory = DaemonThreadFactory.INSTANCE;
 
         WaitStrategy waitStrategy = new BusySpinWaitStrategy();
-        Disruptor<ValueEvent<String>> disruptor
+        Disruptor<ValueEvent<ShortenDto>> disruptor
                 = new Disruptor<>(
                 ValueEvent.EVENT_FACTORY,
                 1024,
@@ -51,15 +52,16 @@ public class SingleEventShortenProducer implements EventProducer {
     }
 
     @Override
-    public void startProducing(ValueEvent<String> data) {
+    public void startProducing(ValueEvent<ShortenDto> data) {
         produce(ringBuffer, data);
     }
 
-    private void produce(final RingBuffer<ValueEvent<String>> ringBuffer, ValueEvent<String> data) {
+    private void produce(final RingBuffer<ValueEvent<ShortenDto>> ringBuffer, ValueEvent<ShortenDto> data) {
         long sequenceId = ringBuffer.next();
-        ValueEvent<String> valueEvent = ringBuffer.get(sequenceId);
+        ValueEvent<ShortenDto> valueEvent = ringBuffer.get(sequenceId);
         valueEvent.setValue(data.getValue());
         ringBuffer.publish(sequenceId);
+
 
     }
 }

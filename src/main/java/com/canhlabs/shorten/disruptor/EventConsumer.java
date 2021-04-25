@@ -1,5 +1,6 @@
 package com.canhlabs.shorten.disruptor;
 
+import com.canhlabs.shorten.share.dto.ShortenDto;
 import com.lmax.disruptor.EventHandler;
 
 /**
@@ -10,5 +11,5 @@ public interface EventConsumer {
      /**
       * One event handler to handle event from ring buffer.
       */
-    EventHandler<ValueEvent<String>> getEventHandler();
+    EventHandler<ValueEvent<ShortenDto>> getEventHandler();
 }

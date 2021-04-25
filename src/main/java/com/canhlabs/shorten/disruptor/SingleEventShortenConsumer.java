@@ -1,6 +1,7 @@
 package com.canhlabs.shorten.disruptor;
 
 import com.canhlabs.shorten.service.ShortenService;
+import com.canhlabs.shorten.share.dto.ShortenDto;
 import com.lmax.disruptor.EventHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ public class SingleEventShortenConsumer implements EventConsumer {
     }
 
     @Override
-    public EventHandler<ValueEvent<String>> getEventHandler() {
+    public EventHandler<ValueEvent<ShortenDto>> getEventHandler() {
         // (event, sequence, endOfBatch) -> shortenHandler(event.getValue(), sequence, endOfBatch)
         return this::shortenHandler;
     }
@@ -32,11 +33,10 @@ public class SingleEventShortenConsumer implements EventConsumer {
      * @param sequence   the current cursor in RingBuffer data structure
      * @param endOfBatch true if sequence have a position at end RingBuffer
      */
-    public void shortenHandler(ValueEvent<String> valueEvent, long sequence, boolean endOfBatch) {
+    public void shortenHandler(ValueEvent<ShortenDto> valueEvent, long sequence, boolean endOfBatch) {
         log.info("Id is " + valueEvent.getValue()
                 + " sequence id that was used is " + sequence + " " + endOfBatch);
-        String shorLink = shortenService.shortenLink(valueEvent.getValue());
-        valueEvent.setValue(shorLink);
+        shortenService.saveShortenLink(valueEvent.getValue());
 
     }
 }

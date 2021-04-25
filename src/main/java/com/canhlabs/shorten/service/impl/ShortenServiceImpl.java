@@ -5,6 +5,7 @@ import com.canhlabs.shorten.repo.URLRepo;
 import com.canhlabs.shorten.service.KeyGenerateService;
 import com.canhlabs.shorten.service.ShortenService;
 import com.canhlabs.shorten.share.AppConstant;
+import com.canhlabs.shorten.share.dto.ShortenDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -43,6 +44,15 @@ public class ShortenServiceImpl implements ShortenService {
         urlRepo.save(entity);
 
         return shortLink;
+    }
+
+    /**
+     * Create the entity and save it to database with hashGen is key
+     */
+    @Override
+    public void saveShortenLink(ShortenDto shortenDto) {
+        URL entity = toEntity(shortenDto.getOriginUrl(), shortenDto.getHash());
+        urlRepo.save(entity);
     }
 
     private URL toEntity(String url, String shortLink) {

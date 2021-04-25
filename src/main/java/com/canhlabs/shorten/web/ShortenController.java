@@ -2,6 +2,7 @@ package com.canhlabs.shorten.web;
 
 import com.canhlabs.shorten.disruptor.SingleEventShortenProducer;
 import com.canhlabs.shorten.disruptor.ValueEvent;
+import com.canhlabs.shorten.facade.ShortenFacade;
 import com.canhlabs.shorten.share.AppConstant;
 import com.canhlabs.shorten.share.ResultObjectInfo;
 import com.canhlabs.shorten.share.enums.ResultStatus;
@@ -26,11 +27,11 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class ShortenController extends BaseController {
 
-    SingleEventShortenProducer singleEventShortenProducer;
+    ShortenFacade shortenFacade;
 
     @Autowired
-    public void injectQueue(SingleEventShortenProducer singleEventShortenProducer) {
-        this.singleEventShortenProducer = singleEventShortenProducer;
+    public void injectQueue(ShortenFacade shortenFacade) {
+        this.shortenFacade = shortenFacade;
     }
 
     /**
@@ -42,10 +43,9 @@ public class ShortenController extends BaseController {
      */
     @PostMapping
     public ResponseEntity<ResultObjectInfo<String>> generateToken(@RequestBody String url) {
-        singleEventShortenProducer.startProducing(ValueEvent.<String>builder().value(url).build());
         return new ResponseEntity<>(ResultObjectInfo.<String>builder()
                 .status(ResultStatus.SUCCESS)
-                .data(url)
+                .data(shortenFacade.shortenLink(url))
                 .message("Get data succeed")
                 .build(), HttpStatus.OK);
     }
