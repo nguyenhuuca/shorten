@@ -1,6 +1,7 @@
 package com.canhlabs.shorten.web;
 
-import com.canhlabs.shorten.service.ShortenService;
+import com.canhlabs.shorten.disruptor.SingleEventShortenProducer;
+import com.canhlabs.shorten.disruptor.ValueEvent;
 import com.canhlabs.shorten.share.AppConstant;
 import com.canhlabs.shorten.share.ResultObjectInfo;
 import com.canhlabs.shorten.share.enums.ResultStatus;
@@ -25,23 +26,26 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class ShortenController extends BaseController {
 
-    ShortenService shortenService;
+    SingleEventShortenProducer singleEventShortenProducer;
+
     @Autowired
-    public void injectShortenService(ShortenService service) {
-        this.shortenService = service;
+    public void injectQueue(SingleEventShortenProducer singleEventShortenProducer) {
+        this.singleEventShortenProducer = singleEventShortenProducer;
     }
 
     /**
      * API using to generate the shorten link
      * This API do not need any permission
+     *
      * @param url from client
      * @return shorten link
      */
     @PostMapping
     public ResponseEntity<ResultObjectInfo<String>> generateToken(@RequestBody String url) {
+        singleEventShortenProducer.startProducing(ValueEvent.<String>builder().value(url).build());
         return new ResponseEntity<>(ResultObjectInfo.<String>builder()
                 .status(ResultStatus.SUCCESS)
-                .data(shortenService.shortenLink(url))
+                .data(url)
                 .message("Get data succeed")
                 .build(), HttpStatus.OK);
     }

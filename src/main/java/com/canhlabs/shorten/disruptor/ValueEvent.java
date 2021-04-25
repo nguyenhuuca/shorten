@@ -1,0 +1,22 @@
+package com.canhlabs.shorten.disruptor;
+
+import com.lmax.disruptor.EventFactory;
+import lombok.*;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class ValueEvent<T> {
+    /**
+     * the value need to handle in queue lmax
+     */
+    private T value;
+
+
+    /**
+     * create new instance ValueEvent
+     */
+    public static final EventFactory<ValueEvent<String>> EVENT_FACTORY = ValueEvent::new;
+}
