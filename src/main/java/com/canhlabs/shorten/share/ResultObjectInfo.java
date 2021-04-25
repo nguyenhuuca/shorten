@@ -9,6 +9,6 @@ import lombok.experimental.SuperBuilder;
 @Setter
 @SuperBuilder
 @NoArgsConstructor
-public class ResultObjectInfo<T> extends ResultInfo<T> {
+public class ResultObjectInfo<T> extends ResultInfo {
     private T data;
 }

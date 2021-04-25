@@ -1,10 +1,7 @@
 package com.canhlabs.shorten.config;
 
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -43,7 +40,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         // add custom filter to spring security filter chain
 //        http.addFilterBefore(new JWTAuthenticationFilter(jwtServices),
-//                UsernamePasswordAuthenticationFilter.class);
+//                UsernamePasswordAuthenticationFilter.class)
 
         // set session stateless policy
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

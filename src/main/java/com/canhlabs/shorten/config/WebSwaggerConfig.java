@@ -40,7 +40,7 @@ public class WebSwaggerConfig {
                 .produces(DEFAULT_PRODUCES_AND_CONSUMES)
                 .consumes(DEFAULT_PRODUCES_AND_CONSUMES)
                 .groupName("1-internal")
-                //.tags(new Tag(AppConstant.API.TAG_AUTH, "REST API for auth"), addDefineTag())
+                .tags(new Tag(AppConstant.API.TAG_SHORTEN, "REST API for auth"), addDefineTag())
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.canhlabs.shorten.web"))
                 .paths(PathSelectors.regex("^((?!.*integration.*).)*$"))

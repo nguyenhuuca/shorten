@@ -11,6 +11,6 @@ import java.util.List;
 @Setter
 @SuperBuilder
 @NoArgsConstructor
-public class ResultListInfo<T> extends ResultInfo<T> {
+public class ResultListInfo<T> extends ResultInfo {
     private List<T> data;
 }

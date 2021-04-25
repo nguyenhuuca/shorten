@@ -8,13 +8,12 @@ import lombok.experimental.SuperBuilder;
 
 /**
  * Using to return from any controller
- * @param <T>  extends object need to return to client
  */
 @Getter
 @Setter
 @SuperBuilder
 @NoArgsConstructor
-public abstract class ResultInfo<T> {
+public abstract class ResultInfo {
     private ResultStatus status;
     private String message;
 }

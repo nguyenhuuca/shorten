@@ -1,7 +1,5 @@
 package com.canhlabs.shorten.web;
 
-import com.canhlabs.shorten.disruptor.SingleEventShortenProducer;
-import com.canhlabs.shorten.disruptor.ValueEvent;
 import com.canhlabs.shorten.facade.ShortenFacade;
 import com.canhlabs.shorten.share.AppConstant;
 import com.canhlabs.shorten.share.ResultObjectInfo;
