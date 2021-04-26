@@ -9,6 +9,7 @@ public class AppConstant {
 
     // Common
     public static final String BASE_DOMAIN = "https://canh-labs.com/";
+    public static final String PREFIX_REDIRECT = "r";
 
     public static class API {
         private API() {

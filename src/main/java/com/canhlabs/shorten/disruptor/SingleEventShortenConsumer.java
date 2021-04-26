@@ -34,7 +34,7 @@ public class SingleEventShortenConsumer implements EventConsumer {
      * @param endOfBatch true if sequence have a position at end RingBuffer
      */
     public void shortenHandler(ValueEvent<ShortenDto> valueEvent, long sequence, boolean endOfBatch) {
-        log.info("Id is " + valueEvent.getValue()
+        log.info("hash  is " + valueEvent.getValue().getHash()
                 + " sequence id that was used is " + sequence + " " + endOfBatch);
         shortenService.saveShortenLink(valueEvent.getValue());
 

@@ -47,4 +47,5 @@ public class ShortenController extends BaseController {
                 .message("Get data succeed")
                 .build(), HttpStatus.OK);
     }
+
 }
