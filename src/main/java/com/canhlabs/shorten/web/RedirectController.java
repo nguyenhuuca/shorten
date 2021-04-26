@@ -9,9 +9,9 @@ import org.springframework.web.servlet.view.RedirectView;
 
 @Slf4j
 @RestController
-@RequestMapping()
+@RequestMapping("/")
 public class RedirectController {
-    @GetMapping(value = "{id:^(r)+}")
+    @GetMapping(value = "{id:[r][a-zA-Z0-9]+}")
     public RedirectView redirectUrl(@PathVariable String id) {
         log.info("Received shortened url to redirect: " + id);
         String redirectUrlString = "yahoo.com/" + id;
