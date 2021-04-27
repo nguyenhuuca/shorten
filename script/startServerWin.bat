@@ -19,6 +19,6 @@ set CLASSPATH=%JARS%;..\classes\shorten-1.0-SNAPSHOT.jar
 for %%i in (..\classes\*.jar) do call cpappend.bat %%i
 set CLASSPATH=%JARS%
 ECHO %CLASSPATH% 
-java -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=../logs/heap_dump.hprof -Xmx1024m -cp "%CLASSPATH%" com.canhlabs.shorten --spring.profiles.active=dev --spring.config.location=../config/application.yml
+java -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=../logs/heap_dump.hprof -Xmx1024m -cp "%CLASSPATH%" com.canhlabs.ShortenApp --spring.profiles.active=dev --spring.config.location=../config/application.properties
 
 PAUSE

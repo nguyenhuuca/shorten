@@ -43,7 +43,7 @@ echo "${JAVA_OPT}"
 echo "env: ${SPRING_ACTIVE_PROFILE}"
 
 # $JAVA_HOME/bin/java $JAVA_OPT -cp ":${CLASSPATH}" \
-#    com.canhlabs.ShortenApp  --spring.config.location=../config/ > ../logs/server.log & echo "$!" > ../pid/r.pid
+#    com.canhlabs.ShortenApp  --spring.config.location=../config/ > /dev/null & echo "$!" > ../pid/r.pid
 
 i=0
 while [ $i -lt 5 ]  
