@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<assembly>
+	<id>${activatedProperties}</id>
+	<includeBaseDirectory>false</includeBaseDirectory>
+	<!-- Specifies that our binary distribution is a zip package -->
+	<formats>
+		<format>tar.gz</format>
+	</formats>
+
+	<!-- Adds the dependencies of our application to the lib directory -->
+	<dependencySets>
+		<dependencySet>
+			<!-- Project artifact is not copied under library directory since it is 
+				added to the root directory of the zip package. -->
+			<useProjectArtifact>false</useProjectArtifact>
+			<outputDirectory>lib</outputDirectory>
+			<unpack>false</unpack>
+		</dependencySet>
+	</dependencySets>
+
+	<fileSets>
+		<!-- Adds startup scripts to the root directory of zip package. The startup 
+			scripts are copied from the src/main/scripts directory. -->
+		<fileSet>
+			<directory>script</directory>
+			<outputDirectory>bin</outputDirectory>
+			<includes>
+				<include>*.*</include>
+			</includes>
+			<lineEnding>unix</lineEnding>			
+			<fileMode>0777</fileMode>
+		</fileSet>
+		<fileSet>
+            <directory>script/conf</directory>
+            <outputDirectory>config</outputDirectory>
+            <includes>
+                <include>*.*</include>
+            </includes>
+            <lineEnding>unix</lineEnding>           
+            <fileMode>0644</fileMode>
+        </fileSet>
+		<!-- Adds the jar file of our example application to the root directory 
+			of the created zip package. -->
+		<fileSet>
+			<directory>${project.build.directory}</directory>
+			<outputDirectory>classes</outputDirectory>
+			<includes>
+				<include>*.jar</include>
+			</includes>
+			<excludes>
+				<exclude>**/*.properties</exclude>
+			</excludes>
+		</fileSet>
+		<fileSet>
+			<directory>./</directory>
+			<outputDirectory>logs</outputDirectory>
+			<excludes>
+				<exclude>*/**</exclude>
+			</excludes>
+		</fileSet>
+
+		<fileSet>
+			<directory>src/main/resources</directory>
+			<outputDirectory>config</outputDirectory>
+			<includes>
+				<include>application.yml</include>
+				 <include>application-${activatedProperties}.yml</include>
+				<include>email/*.*</include>
+
+				<include>application.properties</include>
+				<include>application-${activatedProperties}.properties</include>
+				<include>email/*.*</include>
+			</includes>
+		</fileSet>
+		<fileSet>
+			<directory>./</directory>
+			<outputDirectory>pid</outputDirectory>
+			<excludes>
+				<exclude>*/**</exclude>
+			</excludes>
+		</fileSet>
+		 <!-- Contains files in the root directory -->
+        <fileSet>
+            <directory>${basedir}</directory>
+            <includes>
+                <include>NOTICE</include>
+                <include>LICENSE</include>
+                <include>*.md</include>
+            </includes>
+        </fileSet>
+	</fileSets>
+</assembly>
