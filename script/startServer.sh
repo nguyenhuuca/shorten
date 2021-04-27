@@ -22,17 +22,17 @@ dotenv () {
 
 # . ../config/env.properties
 dotenv
-CLASSPATH=
-for file in `ls ../lib/*.jar`
-do
-    CLASSPATH=${CLASSPATH}:${file}
-done
-
-for f  in `ls ../classes/*.jar`
-do
-    CLASSPATH=${CLASSPATH}:${f}
-done
-echo $CLASSPATH
+#CLASSPATH=
+#for file in `ls ../lib/*.jar`
+#do
+#    CLASSPATH=${CLASSPATH}:${file}
+#done
+#
+#for f  in `ls ../classes/*.jar`
+#do
+#    CLASSPATH=${CLASSPATH}:${f}
+#done
+#echo $CLASSPATH
 
 # java option configure. 
 JAVA_OPT="${MAX_HEAP} ${MIN_HEAP} -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=../logs/heap_dump.hprof"
@@ -44,7 +44,8 @@ echo "env: ${SPRING_ACTIVE_PROFILE}"
 
 # $JAVA_HOME/bin/java $JAVA_OPT -cp ":${CLASSPATH}" \
 #    com.canhlabs.ShortenApp  --spring.config.location=../config/ > ../logs/server.log & echo "$!" > ../pid/r.pid
-
+echo "" > ../logs/shorten.log
+$JAVA_HOME/bin/java $JAVA_OPT -jar ../shorten-1.0-SNAPSHOT.jar --spring.config.location=../config/ > /dev/null & echo  "$!" > ../pid/r.pid
 i=0
 while [ $i -lt 5 ]  
 do

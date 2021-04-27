@@ -55,6 +55,16 @@ public class ShortenServiceImpl implements ShortenService {
         urlRepo.save(entity);
     }
 
+    @Override
+    public String getOriginLink(String id) {
+        String hash = id.substring(1);
+        URL url = urlRepo.findAllByHash(hash);
+        if(url != null && url.getOriginalURL() != null) {
+            return  url.getOriginalURL();
+        }
+        return "google.com";
+    }
+
     private URL toEntity(String url, String shortLink) {
         return URL.builder()
                 .hash(shortLink)
