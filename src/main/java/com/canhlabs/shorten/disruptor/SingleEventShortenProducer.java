@@ -2,7 +2,6 @@ package com.canhlabs.shorten.disruptor;
 
 import com.canhlabs.shorten.share.dto.ShortenDto;
 import com.lmax.disruptor.BlockingWaitStrategy;
-import com.lmax.disruptor.BusySpinWaitStrategy;
 import com.lmax.disruptor.RingBuffer;
 import com.lmax.disruptor.WaitStrategy;
 import com.lmax.disruptor.dsl.Disruptor;

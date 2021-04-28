@@ -1,6 +1,9 @@
 package com.canhlabs.shorten.share.ruleutils;
 
+import com.canhlabs.shorten.share.exception.CustomException;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.validator.routines.UrlValidator;
+import org.springframework.http.HttpStatus;
 
 /**
  * Validation url String format
@@ -17,10 +20,10 @@ public class HttpRule implements Rule<String> {
     @Override
     public void execute(String url) {
         log.info("validation url:{}", url);
-        // todo(canh)
-        // check empty
-        // check prefix, in case lack http/https, auto fill it
-        // in case  suffix, raise error
-
+        UrlValidator urlValidator = new UrlValidator();
+        boolean isValid = urlValidator.isValid(url);
+        if(!isValid) {
+            throw new CustomException("Url invalid", HttpStatus.BAD_REQUEST);
+        }
     }
 }

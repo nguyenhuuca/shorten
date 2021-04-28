@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ShortenValidator {
     public void validate(String url) {
+
         RuleContext<String> context = new RuleContext<>();
         Rule<String> httpRule = new HttpRule();
         Rule<String> externalUrlRule = new ExternalUrlRule();
