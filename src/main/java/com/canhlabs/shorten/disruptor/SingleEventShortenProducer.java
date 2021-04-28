@@ -1,6 +1,7 @@
 package com.canhlabs.shorten.disruptor;
 
 import com.canhlabs.shorten.share.dto.ShortenDto;
+import com.lmax.disruptor.BlockingWaitStrategy;
 import com.lmax.disruptor.BusySpinWaitStrategy;
 import com.lmax.disruptor.RingBuffer;
 import com.lmax.disruptor.WaitStrategy;
@@ -37,7 +38,11 @@ public class SingleEventShortenProducer implements EventProducer {
     public void init() {
         ThreadFactory threadFactory = DaemonThreadFactory.INSTANCE;
 
-        WaitStrategy waitStrategy = new BusySpinWaitStrategy();
+        // BlockingWaitStrategy() -> slow but avoid high load cpu, using in-case limit cpu
+        // SleepingWaitStrategy() -> similar BlockingWaitStrategy, using incase need to write log.
+        // YieldingWaitStrategy() -> Using in case need  high performance
+        //  BusySpinWaitStrategy() -> best performance,
+        WaitStrategy waitStrategy = new BlockingWaitStrategy();
         Disruptor<ValueEvent<ShortenDto>> disruptor
                 = new Disruptor<>(
                 ValueEvent.EVENT_FACTORY,

@@ -3,6 +3,7 @@ package com.canhlabs.shorten.web;
 import com.canhlabs.shorten.facade.ShortenFacade;
 import com.canhlabs.shorten.share.AppConstant;
 import com.canhlabs.shorten.share.ResultObjectInfo;
+import com.canhlabs.shorten.share.dto.ShortenRequestDto;
 import com.canhlabs.shorten.share.enums.ResultStatus;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
@@ -36,14 +37,14 @@ public class ShortenController extends BaseController {
      * API using to generate the shorten link
      * This API do not need any permission
      *
-     * @param url from client
+     * @param request url from client
      * @return shorten link
      */
     @PostMapping
-    public ResponseEntity<ResultObjectInfo<String>> generateToken(@RequestBody String url) {
+    public ResponseEntity<ResultObjectInfo<String>> generateToken(@RequestBody ShortenRequestDto request) {
         return new ResponseEntity<>(ResultObjectInfo.<String>builder()
                 .status(ResultStatus.SUCCESS)
-                .data(shortenFacade.shortenLink(url))
+                .data(shortenFacade.shortenLink(request.getUrl()))
                 .message("Get data succeed")
                 .build(), HttpStatus.OK);
     }
