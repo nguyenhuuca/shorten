@@ -1,48 +1,22 @@
 package com.canhlabs.shorten.share.exception;
 
 import com.canhlabs.shorten.share.dto.ResponseDto;
+import lombok.Builder;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
 import java.time.LocalDateTime;
 
 @Getter
+@Builder
 public class CustomException extends RuntimeException {
     private static final long serialVersionUID = -2885187154886758927L;
-    private Object error;
+    private final transient Object error;
     private final String message;
     private final HttpStatus status;
-    private int subCode;
-    private String timestamp;
-    private Object data;
-
-    public CustomException(String message, HttpStatus status, int errorCode) {
-        this(message, status);
-        this.error = status.getReasonPhrase();
-        this.subCode = errorCode;
-        this.timestamp = LocalDateTime.now().toString();
-    }
-
-    public CustomException(String message, HttpStatus status, Object data) {
-        this(message, status);
-        this.error = status.getReasonPhrase();
-        this.data = data;
-        this.timestamp = LocalDateTime.now().toString();
-    }
-
-    public CustomException(String message, HttpStatus status) {
-        this.error = status.getReasonPhrase();
-        this.message = message;
-        this.status = status;
-        this.timestamp = LocalDateTime.now().toString();
-    }
-
-    public CustomException(HttpStatus status, Error apiError) {
-        this(apiError.getMessage(), status);
-        this.error = apiError;
-        this.timestamp = LocalDateTime.now().toString();
-        this.subCode = apiError.getSubCode();
-    }
+    private final int subCode;
+    private final String timestamp;
+    private final transient Object data;
 
     public ResponseDto buildErrorMessage() {
         return ResponseDto.builder()

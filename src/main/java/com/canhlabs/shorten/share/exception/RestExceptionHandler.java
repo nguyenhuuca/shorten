@@ -108,14 +108,6 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return buildResponseEntity(apiError);
     }
 
-    @ExceptionHandler(FieldValidationException.class)
-    public ResponseEntity<Object> handleFieldValidation(FieldValidationException ex) {
-        Error apiError = new Error(BAD_REQUEST);
-        apiError.setMessage("Validation error");
-        apiError.addValidationError(ex.getFieldError());
-        log.error(ex.getMessage(), ex);
-        return buildResponseEntity(apiError);
-    }
 
     /**
      * Handle HttpMessageNotReadableException. Happens when request JSON is

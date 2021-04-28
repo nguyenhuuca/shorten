@@ -23,7 +23,12 @@ public class HttpRule implements Rule<String> {
         UrlValidator urlValidator = new UrlValidator();
         boolean isValid = urlValidator.isValid(url);
         if(!isValid) {
-            throw new CustomException("Url invalid", HttpStatus.BAD_REQUEST);
+            throw CustomException.builder()
+                    .message("Url invalid")
+                    .status(HttpStatus.BAD_REQUEST)
+                    .build();
+
+
         }
     }
 }
