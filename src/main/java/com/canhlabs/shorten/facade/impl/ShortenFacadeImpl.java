@@ -36,7 +36,7 @@ public class ShortenFacadeImpl implements ShortenFacade {
     @Override
     public String shortenLink(String url) {
         String hash = kgs.generate();
-        String shortLink = AppConstant.BASE_DOMAIN.concat(hash);
+        String shortLink = AppConstant.BASE_DOMAIN.concat(AppConstant.PREFIX_REDIRECT).concat(hash);
         ShortenDto shortenDto = ShortenDto.builder()
                 .hash(hash)
                 .originUrl(url)

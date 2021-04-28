@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface URLRepo extends JpaRepository<URL, String> {
+    URL findAllByHash(String hash);
 }
