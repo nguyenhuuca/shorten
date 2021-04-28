@@ -5,6 +5,7 @@ import com.canhlabs.shorten.share.AppConstant;
 import com.canhlabs.shorten.share.ResultObjectInfo;
 import com.canhlabs.shorten.share.dto.ShortenRequestDto;
 import com.canhlabs.shorten.share.enums.ResultStatus;
+import com.canhlabs.shorten.validator.ShortenValidator;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,9 +29,16 @@ public class ShortenController extends BaseController {
 
     ShortenFacade shortenFacade;
 
+    ShortenValidator shortenValidator;
+
     @Autowired
     public void injectQueue(ShortenFacade shortenFacade) {
         this.shortenFacade = shortenFacade;
+    }
+
+    @Autowired
+    public void injectValidator(ShortenValidator validator) {
+        this.shortenValidator = validator;
     }
 
     /**
@@ -42,6 +50,7 @@ public class ShortenController extends BaseController {
      */
     @PostMapping
     public ResponseEntity<ResultObjectInfo<String>> generateToken(@RequestBody ShortenRequestDto request) {
+        shortenValidator.validate(request.getUrl());
         return new ResponseEntity<>(ResultObjectInfo.<String>builder()
                 .status(ResultStatus.SUCCESS)
                 .data(shortenFacade.shortenLink(request.getUrl()))
