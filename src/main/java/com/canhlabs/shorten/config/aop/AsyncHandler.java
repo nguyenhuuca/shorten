@@ -7,6 +7,9 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
 
+/**
+ * Using to handle action after run async method(with Async annotation)
+ */
 @Aspect
 @Component
 @Slf4j
@@ -23,9 +26,6 @@ public class AsyncHandler {
         log.info("===========asyncExecuted=====");
         log.info("Class name: {}", classCall);
         log.info("Method call: {}", method);
-//        log.info("Current tenant before clear: {}", TenantContext.getTenant());
-//        TenantContext.clear();
-//        log.info("Current tenant after clear: {}", TenantContext.getTenant());
         log.info("===========asyncExecuted=====");
     }
 

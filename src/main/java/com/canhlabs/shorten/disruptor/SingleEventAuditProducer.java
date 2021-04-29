@@ -54,6 +54,10 @@ public class SingleEventAuditProducer implements EventProducer<AuditLogDto> {
 
     }
 
+    /**
+     * Transport audit data to rings buffer
+     * @param data hold the data need to push to ringBuffer
+     */
     @Override
     public void startProducing(ValueEvent<AuditLogDto> data) {
         produce(ringBuffer, data);

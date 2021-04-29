@@ -55,6 +55,10 @@ public class SingleEventShortenProducer implements EventProducer<ShortenDto> {
 
     }
 
+    /**
+     * Transport url data to rings buffer
+     * @param data hold the data need to push to ringBuffer
+     */
     @Override
     public void startProducing(ValueEvent<ShortenDto> data) {
         produce(ringBuffer, data);

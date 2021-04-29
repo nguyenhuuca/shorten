@@ -6,7 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 /**
- * Shorten Consumer handle message from Shorten Producer
+ * Audit Consumer handle message from Audit Producer
  */
 @Slf4j
 @Component
@@ -19,7 +19,7 @@ public class SingleEventAuditConsumer implements EventConsumer<AuditLogDto> {
     }
 
     /**
-     * Using to call shorten Service
+     * Using to write audit log
      *
      * @param valueEvent hold the audit info that send from producer
      * @param sequence   the current cursor in RingBuffer data structure

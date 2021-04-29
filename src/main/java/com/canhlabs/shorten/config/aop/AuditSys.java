@@ -22,6 +22,9 @@ import java.util.Map;
 
 import static com.canhlabs.shorten.share.AppUtils.JSON;
 
+/**
+ * Using to log info before and after execute function with AuditSys annotation
+ */
 @Aspect
 @Component
 @Slf4j
@@ -39,7 +42,7 @@ public class AuditSys {
 
     /**
      * Method will add log statement of audit of the methods of class in call which
-     * are annotated with @RoAudit
+     * are annotated with @Auditable
      */
     @Around("isAuditForClass() || isAuditForMethod()")
     public Object processAudit(ProceedingJoinPoint joinPoint) throws Throwable {
