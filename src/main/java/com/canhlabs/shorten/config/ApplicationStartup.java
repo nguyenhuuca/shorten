@@ -1,6 +1,6 @@
 package com.canhlabs.shorten.config;
 
-import com.canhlabs.shorten.config.prop.AppProperties;
+import com.canhlabs.shorten.share.AppProperties;
 import com.canhlabs.shorten.share.AppConstant;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,6 +1,6 @@
 package com.canhlabs.shorten.facade.impl;
 
-import com.canhlabs.shorten.config.prop.AppProperties;
+import com.canhlabs.shorten.share.AppProperties;
 import com.canhlabs.shorten.disruptor.SingleEventShortenProducer;
 import com.canhlabs.shorten.disruptor.ValueEvent;
 import com.canhlabs.shorten.facade.ShortenFacade;
