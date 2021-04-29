@@ -1,5 +1,7 @@
 package com.canhlabs.shorten.share;
 
+import com.canhlabs.shorten.config.prop.AppProperties;
+
 /**
  * Hold all constant for application
  */
@@ -9,7 +11,7 @@ public class AppConstant {
 
     // Common
     public static final String BASE_DOMAIN = "https://canh-labs.com/";
-    public static final String PREFIX_REDIRECT = "r";
+    public static AppProperties props = new AppProperties();
 
     public static class API {
         private API() {

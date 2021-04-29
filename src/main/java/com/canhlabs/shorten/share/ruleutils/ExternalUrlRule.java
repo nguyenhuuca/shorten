@@ -13,6 +13,7 @@ import java.net.URL;
  */
 @Slf4j
 public class ExternalUrlRule implements Rule<String> {
+
     /**
      * check url not same with current domain
      * Call after check url is valid
@@ -24,7 +25,7 @@ public class ExternalUrlRule implements Rule<String> {
         log.info("Validation external link: {}", url);
         // check not same with domain link
         try {
-            URL internalUrl = new URL(AppConstant.BASE_DOMAIN);
+            URL internalUrl = new URL(AppConstant.props.getBaseDomain());
             URL externalUrl = new URL(url);
             if (internalUrl.getHost().equals(externalUrl.getHost())) {
                 throw CustomException.builder()

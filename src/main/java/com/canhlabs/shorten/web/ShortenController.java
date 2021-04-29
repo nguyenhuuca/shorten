@@ -1,5 +1,6 @@
 package com.canhlabs.shorten.web;
 
+import com.canhlabs.shorten.config.prop.AppProperties;
 import com.canhlabs.shorten.facade.ShortenFacade;
 import com.canhlabs.shorten.share.AppConstant;
 import com.canhlabs.shorten.share.ResultObjectInfo;

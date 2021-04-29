@@ -1,10 +1,10 @@
 package com.canhlabs.shorten.facade.impl;
 
+import com.canhlabs.shorten.config.prop.AppProperties;
 import com.canhlabs.shorten.disruptor.SingleEventShortenProducer;
 import com.canhlabs.shorten.disruptor.ValueEvent;
 import com.canhlabs.shorten.facade.ShortenFacade;
 import com.canhlabs.shorten.service.KeyGenerateService;
-import com.canhlabs.shorten.share.AppConstant;
 import com.canhlabs.shorten.share.dto.ShortenDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -12,7 +12,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class ShortenFacadeImpl implements ShortenFacade {
     private KeyGenerateService kgs;
-    SingleEventShortenProducer singleEventShortenProducer;
+    private SingleEventShortenProducer singleEventShortenProducer;
+    private AppProperties appProps;
 
 
     // setter injection all dependency
@@ -26,6 +27,11 @@ public class ShortenFacadeImpl implements ShortenFacade {
         this.singleEventShortenProducer = singleEventShortenProducer;
     }
 
+    @Autowired
+    public void injectProps(AppProperties appProps) {
+        this.appProps = appProps;
+    }
+
     // end injection
 
     /**
@@ -36,7 +42,7 @@ public class ShortenFacadeImpl implements ShortenFacade {
     @Override
     public String shortenLink(String url) {
         String hash = kgs.generate();
-        String shortLink = AppConstant.BASE_DOMAIN.concat(AppConstant.PREFIX_REDIRECT).concat(hash);
+        String shortLink = appProps.getBaseDomain().concat(appProps.getPrefixRedirect()).concat(hash);
         ShortenDto shortenDto = ShortenDto.builder()
                 .hash(hash)
                 .originUrl(url)
