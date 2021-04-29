@@ -5,12 +5,19 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * Using to load all the properties when start application
+ * Can autowire this class in class that register to Spring Application Context
+ */
 @Getter
 @Configuration
 @ConfigurationProperties("app")
+
 public class AppProperties {
 
+    // Key object for AES encryption, include secret key and vector key
     private Aes aes = new Aes();
+    // Domain run Application
     private String baseDomain;
     private String endpoint;
     private String prefixRedirect;
