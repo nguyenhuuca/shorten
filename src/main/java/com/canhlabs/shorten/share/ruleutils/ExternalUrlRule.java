@@ -33,7 +33,7 @@ public class ExternalUrlRule implements Rule<String> {
                         .build();
             }
         } catch (MalformedURLException e) {
-            log.error("MalformedURLException", e);
+            log.error("MalformedURLException: {}", e.getMessage());
         }
 
     }
