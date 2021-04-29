@@ -49,7 +49,7 @@ public class ShortenController extends BaseController {
      * @return shorten link
      */
     @PostMapping
-    public ResponseEntity<ResultObjectInfo<String>> generateToken(@RequestBody ShortenRequestDto request) {
+    public ResponseEntity<ResultObjectInfo<String>> shorten(@RequestBody ShortenRequestDto request) {
         shortenValidator.validate(request.getUrl());
         return new ResponseEntity<>(ResultObjectInfo.<String>builder()
                 .status(ResultStatus.SUCCESS)

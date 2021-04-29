@@ -19,16 +19,18 @@ public class HttpRule implements Rule<String> {
      */
     @Override
     public void execute(String url) {
-        log.info("validation url:{}", url);
         UrlValidator urlValidator = new UrlValidator();
         boolean isValid = urlValidator.isValid(url);
-        if(!isValid) {
-            throw CustomException.builder()
-                    .message("Url invalid")
-                    .status(HttpStatus.BAD_REQUEST)
-                    .build();
-
-
+        if (!isValid) {
+            raiseError();
         }
+        log.info("Executed http rule");
+    }
+
+    private void raiseError() {
+        throw CustomException.builder()
+                .message("Url invalid")
+                .status(HttpStatus.BAD_REQUEST)
+                .build();
     }
 }

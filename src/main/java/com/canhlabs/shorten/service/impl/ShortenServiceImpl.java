@@ -1,7 +1,7 @@
 package com.canhlabs.shorten.service.impl;
 
 import com.canhlabs.shorten.domain.URL;
-import com.canhlabs.shorten.repo.URLRepo;
+import com.canhlabs.shorten.service.repo.URLRepo;
 import com.canhlabs.shorten.service.KeyGenerateService;
 import com.canhlabs.shorten.service.ShortenService;
 import com.canhlabs.shorten.share.AppConstant;

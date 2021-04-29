@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
  */
 @Slf4j
 @Component
-public class SingleEventShortenConsumer implements EventConsumer {
+public class SingleEventShortenConsumer implements EventConsumer<ShortenDto> {
     ShortenService shortenService;
 
     @Autowired

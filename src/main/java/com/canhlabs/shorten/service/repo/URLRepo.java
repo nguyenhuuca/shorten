@@ -1,4 +1,4 @@
-package com.canhlabs.shorten.repo;
+package com.canhlabs.shorten.service.repo;
 
 import com.canhlabs.shorten.domain.URL;
 import org.springframework.data.jpa.repository.JpaRepository;

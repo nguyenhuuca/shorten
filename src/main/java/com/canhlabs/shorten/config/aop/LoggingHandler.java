@@ -1,20 +1,31 @@
 package com.canhlabs.shorten.config.aop;
 
+import com.canhlabs.shorten.disruptor.SingleEventAuditProducer;
+import com.canhlabs.shorten.disruptor.ValueEvent;
+import com.canhlabs.shorten.share.AppUtils;
+import com.canhlabs.shorten.share.dto.AuditLogDto;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.util.Strings;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;
+
+import static com.canhlabs.shorten.share.AppUtils.JSON;
 
 @Aspect
 @Component
 @Slf4j
 public class LoggingHandler {
+    private SingleEventAuditProducer auditProducer;
+    @Autowired
+    public void injectProducer(SingleEventAuditProducer producer) {
+        this.auditProducer = producer;
+    }
     @Pointcut("within(@org.springframework.web.bind.annotation.RestController *)")
     public void controller() {
         // using for AOP
@@ -30,10 +41,6 @@ public class LoggingHandler {
         // using for AOP
     }
 
-    @Pointcut("execution(* *.*(..))")
-    protected void allMethod() {
-        // using for AOP
-    }
     //Around -> Any method within resource annotated with @Controller annotation
     @Around("controller() && (postMapping() || deleteMapping() ) && args(.., @RequestBody body)")
     public Object logAround(ProceedingJoinPoint joinPoint, Object body) throws Throwable {
@@ -42,23 +49,21 @@ public class LoggingHandler {
     }
 
     private void logInfo(ProceedingJoinPoint joinPoint, Object body) {
-        String env = "";
-        if (StringUtils.isEmpty(env) || "prod".equalsIgnoreCase(env)) {
-            return;
-        }
-        String classCall = joinPoint.getTarget().getClass().getName();
+        String ip = AppUtils.getClientIP();
         String method = joinPoint.getSignature().getName();
-        log.info("********Request controller *************");
-//        log.info("Domain name: {}", TenantContext.getDomainInfo().getDomainName());
-        log.info("Class name: {}", classCall);
-        log.info("Method call: {}", method);
-        log.info("Body post {}", getValue(body));
+        AuditLogDto info = AuditLogDto.builder()
+                .ip(ip)
+                .action(method)
+                .contentSend(getValue(body))
+                .build();
+        auditProducer.startProducing(ValueEvent.<AuditLogDto>builder().value(info).build());
+
     }
 
     private String getValue(Object object) {
         try {
             if(Objects.nonNull(object)) {
-              //return roGson.toJson(MaskUtils.getValueAfterMask(object));
+                return JSON.writeValueAsString(object);
             }
         } catch (Exception e) {
             log.error("getValue Error ", e);
