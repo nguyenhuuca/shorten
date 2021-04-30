@@ -26,11 +26,9 @@ public class SingleEventAuditConsumer implements EventConsumer<AuditLogDto> {
      * @param endOfBatch true if sequence have a position at end RingBuffer
      */
     public void auditHandler(ValueEvent<AuditLogDto> valueEvent, long sequence, boolean endOfBatch) {
-        log.info("*************Request info *************");
         log.info("Action: {}", valueEvent.getValue().getAction());
         log.info("Content send {}", valueEvent.getValue().getContentSend());
         log.info("IP call: {}", valueEvent.getValue().getIp());
-        log.info("****************************************");
         log.info("Audit log" + " sequence id that was used is " + sequence + " " + endOfBatch);
 
 

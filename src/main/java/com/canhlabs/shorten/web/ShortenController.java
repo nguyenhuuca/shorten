@@ -1,7 +1,10 @@
 package com.canhlabs.shorten.web;
 
 import com.canhlabs.shorten.facade.ShortenFacade;
+import com.canhlabs.shorten.service.RateLimitService;
+import com.canhlabs.shorten.service.impl.FixedWindowStrategy;
 import com.canhlabs.shorten.share.AppConstant;
+import com.canhlabs.shorten.share.AppUtils;
 import com.canhlabs.shorten.share.ResultObjectInfo;
 import com.canhlabs.shorten.share.dto.ShortenRequestDto;
 import com.canhlabs.shorten.share.enums.ResultStatus;
@@ -31,6 +34,8 @@ public class ShortenController extends BaseController {
 
     ShortenValidator shortenValidator;
 
+    RateLimitService limit;
+
     @Autowired
     public void injectQueue(ShortenFacade shortenFacade) {
         this.shortenFacade = shortenFacade;
@@ -39,6 +44,10 @@ public class ShortenController extends BaseController {
     @Autowired
     public void injectValidator(ShortenValidator validator) {
         this.shortenValidator = validator;
+    }
+    @Autowired
+    public void injectLimitStrategy(FixedWindowStrategy limit) {
+        this.limit = limit;
     }
 
     /**
@@ -50,6 +59,7 @@ public class ShortenController extends BaseController {
      */
     @PostMapping
     public ResponseEntity<ResultObjectInfo<String>> shorten(@RequestBody ShortenRequestDto request) {
+        limit.checkLimit(AppUtils.getClientIP());
         shortenValidator.validate(request.getUrl());
         return new ResponseEntity<>(ResultObjectInfo.<String>builder()
                 .status(ResultStatus.SUCCESS)
