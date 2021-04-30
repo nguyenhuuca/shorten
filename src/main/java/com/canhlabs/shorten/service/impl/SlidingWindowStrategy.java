@@ -1,6 +1,7 @@
 package com.canhlabs.shorten.service.impl;
 
 import com.canhlabs.shorten.service.RateLimitService;
+import com.canhlabs.shorten.share.AppConstant;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import org.springframework.stereotype.Service;
@@ -30,8 +31,8 @@ public class SlidingWindowStrategy implements RateLimitService {
         Set<Long> timeAccessCurrentSet = cache.getIfPresent(identifier);
         if(timeAccessCurrentSet != null) {
             // remove old time access
-            timeAccessCurrentSet.removeIf(item -> current - item > TIME_LIMIT);
-            if(timeAccessCurrentSet.size() == COUNT_LIMIT) {
+            timeAccessCurrentSet.removeIf(item -> current - item > AppConstant.props.getTimeLimit());
+            if(timeAccessCurrentSet.size() == AppConstant.props.getCountLimit()) {
                 raiseError();
             } else {
                 timeAccessCurrentSet.add(current);

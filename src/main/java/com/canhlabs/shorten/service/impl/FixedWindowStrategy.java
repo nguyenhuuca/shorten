@@ -1,6 +1,7 @@
 package com.canhlabs.shorten.service.impl;
 
 import com.canhlabs.shorten.service.RateLimitService;
+import com.canhlabs.shorten.share.AppConstant;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import org.springframework.stereotype.Service;
@@ -27,12 +28,12 @@ public class FixedWindowStrategy implements RateLimitService {
         long current = Instant.now().toEpochMilli();
         CountValue beforeVal = cache.getIfPresent(identifier);
         if(beforeVal != null) {
-            //
-            if(current - beforeVal.currentAccessTime >= TIME_LIMIT) {
+            // by minute
+            if(current - beforeVal.currentAccessTime >= AppConstant.props.getTimeLimit()) {
                 beforeVal.count = 1;
                 beforeVal.currentAccessTime = current;
             } else {
-                if (beforeVal.count >= COUNT_LIMIT) {
+                if (beforeVal.count >= AppConstant.props.getCountLimit()) {
                     raiseError();
                 } else {
                     beforeVal.count++;
@@ -48,7 +49,7 @@ public class FixedWindowStrategy implements RateLimitService {
     }
 
     static class CountValue {
-        byte count;
+        short count;
         long currentAccessTime;
     }
 }

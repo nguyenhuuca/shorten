@@ -1,10 +1,10 @@
 package com.canhlabs.shorten.share.ruleutils;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 public class RuleContext<T> {
-    private final Set<Rule<T>> rules =  new HashSet<>();
+    private final Set<Rule<T>> rules =  new LinkedHashSet<>();
 
     public RuleContext() {}
 
@@ -22,7 +22,6 @@ public class RuleContext<T> {
 
     public void executeRule(T data) {
         rules.forEach(rule -> rule.execute(data));
-
     }
 
 }

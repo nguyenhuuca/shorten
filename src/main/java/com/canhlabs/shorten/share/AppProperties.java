@@ -21,6 +21,8 @@ public class AppProperties {
     private String baseDomain;
     private String endpoint;
     private String prefixRedirect;
+    private Long timeLimit;
+    private Short countLimit;
 
 
     public void setAes(Aes aes) {
@@ -55,6 +57,23 @@ public class AppProperties {
         }
         raiseError();
 
+    }
+
+    public void setTimeLimit(Long timeLimit) {
+        if (this.timeLimit == null) {
+            this.timeLimit = timeLimit;
+            return;
+        }
+        raiseError();
+
+    }
+
+    public void setCountLimit(Short countLimit) {
+        if(this.countLimit == null) {
+            this.countLimit = countLimit;
+            return;
+        }
+        raiseError();
     }
 
     @Getter

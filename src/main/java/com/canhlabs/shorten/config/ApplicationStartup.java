@@ -21,10 +21,16 @@ public class ApplicationStartup implements ApplicationListener<ContextRefreshedE
     @Override
     @NonNull
     public void onApplicationEvent(@NonNull ContextRefreshedEvent contextRefreshedEvent) {
+        loadProperties();
+    }
+
+    private void loadProperties() {
         log.info("load AppProperties...");
         AppConstant.props.setAes(appProps.getAes());
         AppConstant.props.setEndpoint(appProps.getEndpoint());
         AppConstant.props.setPrefixRedirect(appProps.getPrefixRedirect());
         AppConstant.props.setBaseDomain(appProps.getBaseDomain());
+        AppConstant.props.setTimeLimit(appProps.getTimeLimit());
+        AppConstant.props.setCountLimit(appProps.getCountLimit());
     }
 }
