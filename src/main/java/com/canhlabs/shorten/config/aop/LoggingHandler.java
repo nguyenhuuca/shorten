@@ -1,5 +1,6 @@
 package com.canhlabs.shorten.config.aop;
 
+import com.canhlabs.shorten.disruptor.EventProducer;
 import com.canhlabs.shorten.disruptor.SingleEventAuditProducer;
 import com.canhlabs.shorten.disruptor.ValueEvent;
 import com.canhlabs.shorten.share.AppUtils;
@@ -21,7 +22,7 @@ import static com.canhlabs.shorten.share.AppUtils.JSON;
 @Component
 @Slf4j
 public class LoggingHandler {
-    private SingleEventAuditProducer auditProducer;
+    private EventProducer<AuditLogDto> auditProducer;
     @Autowired
     public void injectProducer(SingleEventAuditProducer producer) {
         this.auditProducer = producer;

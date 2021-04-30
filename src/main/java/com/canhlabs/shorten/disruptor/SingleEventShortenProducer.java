@@ -21,14 +21,13 @@ public class SingleEventShortenProducer implements EventProducer<ShortenDto> {
     /**
      * using to save shorten to database
      */
-    SingleEventShortenConsumer singleEventShortenConsumer;
+    private EventConsumer<ShortenDto> consumer;
+    private RingBuffer<ValueEvent<ShortenDto>> ringBuffer;
 
     @Autowired
     public void injectConsumer(SingleEventShortenConsumer consumer) {
-        this.singleEventShortenConsumer = consumer;
+        this.consumer = consumer;
     }
-
-    RingBuffer<ValueEvent<ShortenDto>> ringBuffer;
 
     /**
      * start Disruptor for application
@@ -49,7 +48,7 @@ public class SingleEventShortenProducer implements EventProducer<ShortenDto> {
                 threadFactory,
                 ProducerType.SINGLE,
                 waitStrategy);
-        disruptor.handleEventsWith(singleEventShortenConsumer.getEventHandler());
+        disruptor.handleEventsWith(consumer.getEventHandler());
         this.ringBuffer = disruptor.start();
         log.info("Disruptor for shorten event was started....");
 

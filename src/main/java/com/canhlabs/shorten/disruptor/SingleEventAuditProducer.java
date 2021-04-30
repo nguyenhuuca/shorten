@@ -21,14 +21,15 @@ public class SingleEventAuditProducer implements EventProducer<AuditLogDto> {
     /**
      * using to write audit log
      */
-    SingleEventAuditConsumer singleEventAuditConsumer;
+    private EventConsumer<AuditLogDto> consumer;
+    private RingBuffer<ValueEvent<AuditLogDto>> ringBuffer;
 
     @Autowired
     public void injectConsumer(SingleEventAuditConsumer consumer) {
-        this.singleEventAuditConsumer = consumer;
+        this.consumer = consumer;
     }
 
-    RingBuffer<ValueEvent<AuditLogDto>> ringBuffer;
+
 
     /**
      * start Disruptor for application
@@ -49,7 +50,7 @@ public class SingleEventAuditProducer implements EventProducer<AuditLogDto> {
                 threadFactory,
                 ProducerType.SINGLE,
                 waitStrategy);
-        disruptor.handleEventsWith(singleEventAuditConsumer.getEventHandler());
+        disruptor.handleEventsWith(consumer.getEventHandler());
         this.ringBuffer = disruptor.start();
 
     }

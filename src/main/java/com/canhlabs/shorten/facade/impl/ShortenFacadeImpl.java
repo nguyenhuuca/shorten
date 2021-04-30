@@ -1,5 +1,6 @@
 package com.canhlabs.shorten.facade.impl;
 
+import com.canhlabs.shorten.disruptor.EventProducer;
 import com.canhlabs.shorten.share.AppProperties;
 import com.canhlabs.shorten.disruptor.SingleEventShortenProducer;
 import com.canhlabs.shorten.disruptor.ValueEvent;
@@ -12,7 +13,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ShortenFacadeImpl implements ShortenFacade {
     private KeyGenerateService kgs;
-    private SingleEventShortenProducer singleEventShortenProducer;
+    private EventProducer<ShortenDto> producer;
     private AppProperties appProps;
 
 
@@ -24,7 +25,7 @@ public class ShortenFacadeImpl implements ShortenFacade {
 
     @Autowired
     public void injectQueue(SingleEventShortenProducer singleEventShortenProducer) {
-        this.singleEventShortenProducer = singleEventShortenProducer;
+        this.producer = singleEventShortenProducer;
     }
 
     @Autowired
@@ -48,7 +49,7 @@ public class ShortenFacadeImpl implements ShortenFacade {
                 .originUrl(url)
                 .build();
         // async process
-        singleEventShortenProducer.startProducing(ValueEvent.<ShortenDto>builder().value(shortenDto).build());
+        producer.startProducing(ValueEvent.<ShortenDto>builder().value(shortenDto).build());
 
         return shortLink;
     }
