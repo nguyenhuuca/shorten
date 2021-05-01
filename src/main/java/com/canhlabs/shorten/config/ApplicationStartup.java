@@ -1,7 +1,7 @@
 package com.canhlabs.shorten.config;
 
-import com.canhlabs.shorten.share.AppProperties;
 import com.canhlabs.shorten.share.AppConstant;
+import com.canhlabs.shorten.share.AppProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
@@ -9,6 +9,9 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 
+/**
+ * Using to init the data before application start
+ */
 @Component
 @Slf4j
 public class ApplicationStartup implements ApplicationListener<ContextRefreshedEvent> {

@@ -14,7 +14,7 @@ public class SingleEventAuditConsumer implements EventConsumer<AuditLogDto> {
 
     @Override
     public EventHandler<ValueEvent<AuditLogDto>> getEventHandler() {
-        // (event, sequence, endOfBatch) -> shortenHandler(event.getValue(), sequence, endOfBatch)
+        // (event, sequence, endOfBatch) -> auditHandler(event.getValue(), sequence, endOfBatch)
         return this::auditHandler;
     }
 
@@ -25,9 +25,9 @@ public class SingleEventAuditConsumer implements EventConsumer<AuditLogDto> {
      * @param sequence   the current cursor in RingBuffer data structure
      * @param endOfBatch true if sequence have a position at end RingBuffer
      */
-    public void auditHandler(ValueEvent<AuditLogDto> valueEvent, long sequence, boolean endOfBatch) {
+    private void auditHandler(ValueEvent<AuditLogDto> valueEvent, long sequence, boolean endOfBatch) {
         log.info("Action: {}", valueEvent.getValue().getAction());
-        log.info("Content send {}", valueEvent.getValue().getContentSend());
+        log.info("Content send: {}", valueEvent.getValue().getContentSend());
         log.info("IP call: {}", valueEvent.getValue().getIp());
         log.info("Audit log" + " sequence id that was used is " + sequence + " " + endOfBatch);
 

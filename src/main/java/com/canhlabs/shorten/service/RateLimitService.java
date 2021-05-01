@@ -18,7 +18,7 @@ public interface RateLimitService {
 
     default void raiseError() {
         throw CustomException.builder()
-                .message("Only permit " + AppConstant.props.getCountLimit() + " request on each identifier")
+                .message("Only permit " + AppConstant.props.getCountLimit() + " request/minute on each identifier")
                 .status(HttpStatus.TOO_MANY_REQUESTS)
                 .build();
     }

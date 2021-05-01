@@ -13,10 +13,10 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class ResponseDto implements Serializable {
     private static final long serialVersionUID = -6448620768602438445L;
-    private Object error;
+    private transient Object error;
     private String message;
     private int status;
     private int subCode;
     private String timestamp;
-    private Object data;
+    private transient Object data;
 }
