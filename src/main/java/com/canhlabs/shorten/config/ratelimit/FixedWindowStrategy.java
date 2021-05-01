@@ -1,16 +1,15 @@
-package com.canhlabs.shorten.service.impl;
+package com.canhlabs.shorten.config.ratelimit;
 
-import com.canhlabs.shorten.service.RateLimitService;
 import com.canhlabs.shorten.share.AppConstant;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.time.Instant;
 
-@Service
-public class FixedWindowStrategy implements RateLimitService {
+@Component
+public class FixedWindowStrategy implements RateLimiter {
     private Cache<String, CountValue> cache;
     @PostConstruct
     public void init() {

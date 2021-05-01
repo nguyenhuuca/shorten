@@ -1,4 +1,4 @@
-package com.canhlabs.shorten.service;
+package com.canhlabs.shorten.config.ratelimit;
 
 import com.canhlabs.shorten.share.AppConstant;
 import com.canhlabs.shorten.share.exception.CustomException;
@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 /**
  * To avoid DDOS, apply rating limit for system
  */
-public interface RateLimitService {
+public interface RateLimiter {
 
     /**
      * only permit the some request per minute, raise error is case not valid

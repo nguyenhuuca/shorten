@@ -1,20 +1,19 @@
-package com.canhlabs.shorten.service.impl;
+package com.canhlabs.shorten.config.ratelimit;
 
-import com.canhlabs.shorten.service.RateLimitService;
 import com.canhlabs.shorten.share.AppConstant;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
-@Service
+@Component
 @Slf4j
-public class SlidingWindowWithCounterStrategy implements RateLimitService {
+public class SlidingWindowWithCounterStrategy implements RateLimiter {
     // max element inn list is 2
     // element index 0: keep the time and value of window before
     // element index 1: keep time anh counter of next window

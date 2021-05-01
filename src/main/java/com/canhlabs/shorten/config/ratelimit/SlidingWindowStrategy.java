@@ -1,10 +1,9 @@
-package com.canhlabs.shorten.service.impl;
+package com.canhlabs.shorten.config.ratelimit;
 
-import com.canhlabs.shorten.service.RateLimitService;
 import com.canhlabs.shorten.share.AppConstant;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.time.Instant;
@@ -14,8 +13,8 @@ import java.util.Set;
 /**
  *
  */
-@Service
-public class SlidingWindowStrategy implements RateLimitService {
+@Component
+public class SlidingWindowStrategy implements RateLimiter {
     private Cache<String, Set<Long>> cache;
     @PostConstruct
     public void init() {
