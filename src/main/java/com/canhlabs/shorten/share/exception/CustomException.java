@@ -1,6 +1,6 @@
 package com.canhlabs.shorten.share.exception;
 
-import com.canhlabs.shorten.share.dto.ResponseDto;
+import com.canhlabs.shorten.share.ResultErrorInfo;
 import lombok.Builder;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
@@ -16,15 +16,13 @@ public class CustomException extends RuntimeException {
     private final HttpStatus status;
     private final int subCode;
     private final String timestamp;
-    private final transient Object data;
 
-    public ResponseDto buildErrorMessage() {
-        return ResponseDto.builder()
+    public ResultErrorInfo buildErrorMessage() {
+        return ResultErrorInfo.builder()
                 .message(this.message)
                 .error(this.error)
                 .status(this.status.value())
                 .subCode(this.subCode)
-                .data(this.data)
                 .timestamp(LocalDateTime.now().toString())
                 .build();
     }

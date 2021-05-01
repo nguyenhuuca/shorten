@@ -3,6 +3,7 @@ package com.canhlabs.shorten.web;
 import com.canhlabs.shorten.facade.ShortenFacade;
 import com.canhlabs.shorten.service.RateLimitService;
 import com.canhlabs.shorten.service.impl.FixedWindowStrategy;
+import com.canhlabs.shorten.service.impl.SlidingWindowWithCounterStrategy;
 import com.canhlabs.shorten.share.AppConstant;
 import com.canhlabs.shorten.share.AppUtils;
 import com.canhlabs.shorten.share.ResultObjectInfo;
@@ -46,7 +47,7 @@ public class ShortenController extends BaseController {
         this.shortenValidator = validator;
     }
     @Autowired
-    public void injectLimitStrategy(FixedWindowStrategy limit) {
+    public void injectLimitStrategy(SlidingWindowWithCounterStrategy limit) {
         this.limit = limit;
     }
 

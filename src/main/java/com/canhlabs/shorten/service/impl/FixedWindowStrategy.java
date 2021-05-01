@@ -41,9 +41,7 @@ public class FixedWindowStrategy implements RateLimitService {
             }
 
         } else {
-            CountValue newCountVal = new CountValue();
-            newCountVal.count = 1;
-            newCountVal.currentAccessTime = current;
+            CountValue newCountVal = new CountValue((short) 1, current);
             cache.put(identifier, newCountVal);
         }
     }
@@ -51,5 +49,9 @@ public class FixedWindowStrategy implements RateLimitService {
     static class CountValue {
         short count;
         long currentAccessTime;
+        CountValue(short count, long currentTime) {
+            this.count = count;
+            this.currentAccessTime = currentTime;
+        }
     }
 }
