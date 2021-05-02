@@ -18,6 +18,7 @@ public class SlidingWindowWithCounterStrategy implements RateLimiter {
     // element index 0: keep the time and value of window before
     // element index 1: keep time anh counter of next window
     private Cache<String, List<CountValue>> cache;
+
     @PostConstruct
     public void init() {
         cache = CacheBuilder.newBuilder().build();
@@ -25,21 +26,27 @@ public class SlidingWindowWithCounterStrategy implements RateLimiter {
 
     /**
      * Using slide window
+     *
      * @param identifier can is user or IP request
      */
     @Override
     public void checkLimit(String identifier) {
+        checkLimit(identifier, AppConstant.props.getTimeLimit(), AppConstant.props.getCountLimit());
+    }
+
+    @Override
+    public void checkLimit(String identifier, long timeLimit, int countLimit) {
         long current = Instant.now().toEpochMilli();
         List<CountValue> values = cache.getIfPresent(identifier);
-        if(values != null) {
-            if(values.size() == 1) {
+        if (values != null) {
+            if (values.size() == 1) {
                 CountValue countValue = new CountValue((short) 1, current);
                 values.add(countValue);
             } else {
                 // values size = 2
                 // check to increase count for 2th element
                 CountValue countValue = values.get(1);
-                if(current - countValue.currentAccessTime >= AppConstant.props.getTimeLimit()) {
+                if (current - countValue.currentAccessTime >= timeLimit) {
                     // keep the time anh counter current,
                     values.get(0).currentAccessTime = countValue.currentAccessTime;
                     values.get(0).count = countValue.count;
@@ -47,7 +54,7 @@ public class SlidingWindowWithCounterStrategy implements RateLimiter {
                 } else {
                     // calculate the average of counter
                     double rate = getRate(current, values);
-                    if(rate + 1 >= AppConstant.props.getCountLimit()) {
+                    if (rate + 1 >= countLimit) {
                         raiseError();
                     } else {
                         countValue.count++;
@@ -66,14 +73,15 @@ public class SlidingWindowWithCounterStrategy implements RateLimiter {
 
     private double getRate(long current, List<CountValue> values) {
         long startWindow = current - AppConstant.props.getTimeLimit();
-        long distancePeriodBefore =  values.get(0).currentAccessTime - startWindow;
-        if(distancePeriodBefore < 0) distancePeriodBefore = 0;
-        return values.get(0).count * (distancePeriodBefore/(AppConstant.props.getTimeLimit()*1.0)) + values.get(1).count;
+        long distancePeriodBefore = values.get(0).currentAccessTime - startWindow;
+        if (distancePeriodBefore < 0) distancePeriodBefore = 0;
+        return values.get(0).count * (distancePeriodBefore / (AppConstant.props.getTimeLimit() * 1.0)) + values.get(1).count;
     }
 
     static class CountValue {
         short count;
         long currentAccessTime;
+
         CountValue(short count, long currentTime) {
             this.count = count;
             this.currentAccessTime = currentTime;

@@ -1,8 +1,8 @@
 package com.canhlabs.shorten.web;
 
+import com.canhlabs.shorten.config.aop.RateLimitAble;
 import com.canhlabs.shorten.facade.ShortenFacade;
 import com.canhlabs.shorten.share.AppConstant;
-import com.canhlabs.shorten.share.AppUtils;
 import com.canhlabs.shorten.share.ResultObjectInfo;
 import com.canhlabs.shorten.share.dto.ShortenRequestDto;
 import com.canhlabs.shorten.share.enums.ResultStatus;
@@ -51,8 +51,8 @@ public class ShortenController extends BaseController {
      * @return shorten link
      */
     @PostMapping
+    @RateLimitAble
     public ResponseEntity<ResultObjectInfo<String>> shorten(@RequestBody ShortenRequestDto request) {
-        limit.checkLimit(AppUtils.getClientIP());
         shortenValidator.validate(request.getUrl());
         return new ResponseEntity<>(ResultObjectInfo.<String>builder()
                 .status(ResultStatus.SUCCESS)

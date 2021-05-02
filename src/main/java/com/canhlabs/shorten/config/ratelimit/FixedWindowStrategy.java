@@ -24,15 +24,21 @@ public class FixedWindowStrategy implements RateLimiter {
      */
     @Override
     public void checkLimit(String identifier) {
+        checkLimit(identifier, AppConstant.props.getTimeLimit(), AppConstant.props.getCountLimit());
+
+    }
+
+    @Override
+    public void checkLimit(String identifier, long timeLimit, int countLimit) {
         long current = Instant.now().toEpochMilli();
         CountValue beforeVal = cache.getIfPresent(identifier);
         if(beforeVal != null) {
             // by minute
-            if(current - beforeVal.currentAccessTime >= AppConstant.props.getTimeLimit()) {
+            if(current - beforeVal.currentAccessTime >= timeLimit) {
                 beforeVal.count = 1;
                 beforeVal.currentAccessTime = current;
             } else {
-                if (beforeVal.count >= AppConstant.props.getCountLimit()) {
+                if (beforeVal.count >= countLimit) {
                     raiseError();
                 } else {
                     beforeVal.count++;
@@ -43,7 +49,9 @@ public class FixedWindowStrategy implements RateLimiter {
             CountValue newCountVal = new CountValue((short) 1, current);
             cache.put(identifier, newCountVal);
         }
+
     }
+
 
     static class CountValue {
         short count;

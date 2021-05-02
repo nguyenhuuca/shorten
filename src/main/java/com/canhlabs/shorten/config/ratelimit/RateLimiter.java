@@ -16,6 +16,14 @@ public interface RateLimiter {
      */
     void checkLimit(String identifier);
 
+    /**
+     * using to raise the limit request
+     * @param identifier can is user or IP request
+     * @param timeLimit time(millisecond) to cal the number of request
+     * @param countLimit number of request on time limit
+     */
+    void checkLimit(String identifier,long timeLimit,int countLimit);
+
     default void raiseError() {
         throw CustomException.builder()
                 .message("Only permit " + AppConstant.props.getCountLimit() + " request/minute on each identifier")

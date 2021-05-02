@@ -18,7 +18,6 @@ public class SlidingWindowStrategy implements RateLimiter {
     private Cache<String, Set<Long>> cache;
     @PostConstruct
     public void init() {
-
        cache = CacheBuilder.newBuilder().build();
     }
 
@@ -29,12 +28,17 @@ public class SlidingWindowStrategy implements RateLimiter {
      */
     @Override
     public void checkLimit(String identifier) {
+        checkLimit(identifier, AppConstant.props.getTimeLimit(), AppConstant.props.getCountLimit());
+    }
+
+    @Override
+    public void checkLimit(String identifier, long timeLimit, int countLimit) {
         long current = Instant.now().toEpochMilli();
         Set<Long> timeAccessCurrentSet = cache.getIfPresent(identifier);
         if(timeAccessCurrentSet != null) {
             // remove old time access
-            timeAccessCurrentSet.removeIf(item -> current - item > AppConstant.props.getTimeLimit());
-            if(timeAccessCurrentSet.size() == AppConstant.props.getCountLimit()) {
+            timeAccessCurrentSet.removeIf(item -> current - item > timeLimit);
+            if(timeAccessCurrentSet.size() == countLimit) {
                 raiseError();
             } else {
                 timeAccessCurrentSet.add(current);
@@ -45,7 +49,6 @@ public class SlidingWindowStrategy implements RateLimiter {
             timeAccessSet.add(current);
             cache.put(identifier, timeAccessSet);
         }
-
 
     }
 }
