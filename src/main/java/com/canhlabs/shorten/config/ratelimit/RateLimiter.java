@@ -1,6 +1,5 @@
 package com.canhlabs.shorten.config.ratelimit;
 
-import com.canhlabs.shorten.share.AppConstant;
 import com.canhlabs.shorten.share.exception.CustomException;
 import org.springframework.http.HttpStatus;
 
@@ -24,9 +23,9 @@ public interface RateLimiter {
      */
     void checkLimit(String identifier,long timeLimit,int countLimit);
 
-    default void raiseError() {
+    default void raiseError(int countLimit) {
         throw CustomException.builder()
-                .message("Only permit " + AppConstant.props.getCountLimit() + " request/minute on each identifier")
+                .message("Only permit " + countLimit + " request/minute on each identifier")
                 .status(HttpStatus.TOO_MANY_REQUESTS)
                 .build();
     }

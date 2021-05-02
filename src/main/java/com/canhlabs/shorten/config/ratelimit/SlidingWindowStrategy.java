@@ -39,7 +39,7 @@ public class SlidingWindowStrategy implements RateLimiter {
             // remove old time access
             timeAccessCurrentSet.removeIf(item -> current - item > timeLimit);
             if(timeAccessCurrentSet.size() == countLimit) {
-                raiseError();
+                raiseError(countLimit);
             } else {
                 timeAccessCurrentSet.add(current);
             }

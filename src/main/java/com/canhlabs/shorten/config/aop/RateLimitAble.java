@@ -12,7 +12,7 @@ public @interface RateLimitAble {
      *
      * pass by millisecond
      */
-    int timeLimit() default 60000; // default 1 minute
+    int timeLimit() default 0; // in case not set, will using from configure file
 
-    int countLimit() default 40;
+    short countLimit() default 0; // in case not set, will using from configure file
 }

@@ -39,7 +39,7 @@ public class FixedWindowStrategy implements RateLimiter {
                 beforeVal.currentAccessTime = current;
             } else {
                 if (beforeVal.count >= countLimit) {
-                    raiseError();
+                    raiseError(countLimit);
                 } else {
                     beforeVal.count++;
                 }

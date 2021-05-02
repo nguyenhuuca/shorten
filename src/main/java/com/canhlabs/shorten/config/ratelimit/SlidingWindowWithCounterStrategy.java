@@ -55,7 +55,7 @@ public class SlidingWindowWithCounterStrategy implements RateLimiter {
                     // calculate the average of counter
                     double rate = getRate(current, values);
                     if (rate + 1 >= countLimit) {
-                        raiseError();
+                        raiseError(countLimit);
                     } else {
                         countValue.count++;
                     }

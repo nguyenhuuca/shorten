@@ -2,6 +2,7 @@ package com.canhlabs.shorten.config.aop;
 
 import com.canhlabs.shorten.config.ratelimit.RateLimiter;
 import com.canhlabs.shorten.config.ratelimit.SlidingWindowWithCounterStrategy;
+import com.canhlabs.shorten.share.AppConstant;
 import com.canhlabs.shorten.share.AppUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.annotation.Aspect;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class RatingLimit {
     RateLimiter limit;
+
     @Autowired
     public void injectLimitStrategy(SlidingWindowWithCounterStrategy limit) {
         this.limit = limit;
@@ -28,6 +30,15 @@ public class RatingLimit {
      */
     @Before("@annotation(rateLimitAble)")
     public void processRatingLimit(RateLimitAble rateLimitAble) {
-        limit.checkLimit(AppUtils.getClientIP(), rateLimitAble.timeLimit(), rateLimitAble.countLimit());
+        long timeLimit = rateLimitAble.timeLimit();
+        short countLimit = rateLimitAble.countLimit();
+        if (timeLimit <= 0) {
+            timeLimit = AppConstant.props.getTimeLimit();
+        }
+        if (countLimit <= 0) {
+            countLimit = AppConstant.props.getCountLimit();
+        }
+
+        limit.checkLimit(AppUtils.getClientIP(), timeLimit, countLimit);
     }
 }
