@@ -16,5 +16,4 @@ public class ShortenApp {
         log.info("Starting Shorten application");
 
     }
-
 }

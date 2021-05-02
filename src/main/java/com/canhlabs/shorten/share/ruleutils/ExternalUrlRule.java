@@ -13,6 +13,7 @@ import java.net.URL;
  */
 @Slf4j
 public class ExternalUrlRule implements Rule<String> {
+
     /**
      * check url not same with current domain
      * Call after check url is valid
@@ -21,20 +22,24 @@ public class ExternalUrlRule implements Rule<String> {
      */
     @Override
     public void execute(String url) {
-        log.info("Validation external link: {}", url);
         // check not same with domain link
         try {
-            URL internalUrl = new URL(AppConstant.BASE_DOMAIN);
+            URL internalUrl = new URL(AppConstant.props.getBaseDomain());
             URL externalUrl = new URL(url);
             if (internalUrl.getHost().equals(externalUrl.getHost())) {
-                throw CustomException.builder()
-                        .message("Only shorten the external URL")
-                        .status(HttpStatus.BAD_REQUEST)
-                        .build();
+                raiseError("Only shorten the external URL");
             }
         } catch (MalformedURLException e) {
-            log.error("MalformedURLException", e);
+            raiseError(e.getMessage());
         }
+        log.info("Executed validation external link");
 
+    }
+
+    private void raiseError(String message) {
+        throw CustomException.builder()
+                .message(message)
+                .status(HttpStatus.BAD_REQUEST)
+                .build();
     }
 }

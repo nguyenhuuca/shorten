@@ -1,6 +1,6 @@
 package com.canhlabs.shorten.share.exception;
 
-import com.canhlabs.shorten.share.dto.ResponseDto;
+import com.canhlabs.shorten.share.ResultErrorInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONObject;
@@ -88,7 +88,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<Object> handleConstraintViolation(ConstraintViolationException ex) {
         log.error(ex.getMessage());
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ResponseDto.builder()
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ResultErrorInfo.builder()
                 .message("SYSTEM_ERROR")
                 .error(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase())
                 .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
@@ -204,7 +204,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
 
     @ExceptionHandler(CustomException.class)
-    public ResponseEntity<ResponseDto> handleCustomException(CustomException ex) {
+    public ResponseEntity<ResultErrorInfo> handleCustomException(CustomException ex) {
         log.error(ex.getMessage());
         return ResponseEntity.status(ex.getStatus()).body(ex.buildErrorMessage());
     }

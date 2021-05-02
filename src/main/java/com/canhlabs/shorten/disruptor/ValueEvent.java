@@ -1,5 +1,6 @@
 package com.canhlabs.shorten.disruptor;
 
+import com.canhlabs.shorten.share.dto.AuditLogDto;
 import com.canhlabs.shorten.share.dto.ShortenDto;
 import com.lmax.disruptor.EventFactory;
 import lombok.*;
@@ -19,5 +20,7 @@ public class ValueEvent<T> {
     /**
      * create new instance ValueEvent
      */
-    public static final EventFactory<ValueEvent<ShortenDto>> EVENT_FACTORY = ValueEvent::new;
+    public static final EventFactory<ValueEvent<ShortenDto>> EVENT_SHORTEN_FACTORY = ValueEvent::new;
+
+    public static final EventFactory<ValueEvent<AuditLogDto>> EVENT_AUDIT_FACTORY = ValueEvent::new;
 }
