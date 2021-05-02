@@ -12,6 +12,8 @@ REM
 set JARS=
 set CLASSPATH=
 @ECHO OFF
+call ..\config\env.bat
+echo %DB_HOST%
 SET CLASSPATH=""
 for %%i in (..\lib\*.jar) do call cpappend.bat %%i
 set CLASSPATH=%JARS%;..\classes\shorten-1.0-SNAPSHOT.jar
