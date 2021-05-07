@@ -23,6 +23,7 @@ public class AppProperties {
     private String prefixRedirect;
     private Long timeLimit;
     private Short countLimit;
+    private String errorPage;
 
 
     public void setAes(Aes aes) {
@@ -71,6 +72,14 @@ public class AppProperties {
     public void setCountLimit(Short countLimit) {
         if(this.countLimit == null) {
             this.countLimit = countLimit;
+            return;
+        }
+        raiseError();
+    }
+
+    public void setErrorPage(String errorPage) {
+        if(this.errorPage == null) {
+            this.errorPage = errorPage;
             return;
         }
         raiseError();

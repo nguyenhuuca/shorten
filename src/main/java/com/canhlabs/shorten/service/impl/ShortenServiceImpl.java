@@ -69,7 +69,7 @@ public class ShortenServiceImpl implements ShortenService {
         if(url != null && url.getOriginalURL() != null) {
             return  url.getOriginalURL();
         }
-        return AppConstant.props.getBaseDomain() + "error/404/index.html";
+        return AppConstant.props.getErrorPage();
     }
 
     private URL toEntity(String url, String shortLink) {
