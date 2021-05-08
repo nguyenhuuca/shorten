@@ -35,5 +35,6 @@ public class ApplicationStartup implements ApplicationListener<ContextRefreshedE
         AppConstant.props.setBaseDomain(appProps.getBaseDomain());
         AppConstant.props.setTimeLimit(appProps.getTimeLimit());
         AppConstant.props.setCountLimit(appProps.getCountLimit());
+        AppConstant.props.setErrorPage(appProps.getErrorPage());
     }
 }
