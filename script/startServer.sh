@@ -41,11 +41,15 @@ echo "${JAVA_OPT}"
 
 # export SPRING_ACTIVE_PROFILE=${SPRING_ACTIVE_PROFILE}
 echo "env: ${SPRING_ACTIVE_PROFILE}"
+echo "" > logs/shorten.log
 
-# $JAVA_HOME/bin/java $JAVA_OPT -cp ":${CLASSPATH}" \
-#    com.canhlabs.ShortenApp  --spring.config.location=../config/ > ../logs/server.log & echo "$!" > ../pid/r.pid
-echo "" > ../logs/shorten.log
-$JAVA_HOME/bin/java $JAVA_OPT -jar ../shorten-1.0-SNAPSHOT.jar --spring.config.location=../config/ > /dev/null & echo  "$!" > ../pid/r.pid
+## in case run main file
+# nohup $JAVA_HOME/bin/java $JAVA_OPT -cp ":${CLASSPATH}" \
+#    com.canhlabs.ShortenApp  --spring.config.location=../config/ > /dev/null & echo "$!" > ../pid/shorten.pid
+
+## in case rung jar file
+nohup $JAVA_HOME/bin/java $JAVA_OPT -jar shorten-1.0-SNAPSHOT.jar --spring.config.location=config/ > /dev/null 2>&1 & echo  "$!" > ../pid/shorten.pid
+
 i=0
 while [ $i -lt 5 ]  
 do
