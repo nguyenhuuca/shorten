@@ -41,7 +41,7 @@ echo "${JAVA_OPT}"
 
 # export SPRING_ACTIVE_PROFILE=${SPRING_ACTIVE_PROFILE}
 echo "env: ${SPRING_ACTIVE_PROFILE}"
-echo "" > logs/shorten.log
+:echo "" > logs/shorten.log
 
 ## in case run main file
 # nohup $JAVA_HOME/bin/java $JAVA_OPT -cp ":${CLASSPATH}" \
