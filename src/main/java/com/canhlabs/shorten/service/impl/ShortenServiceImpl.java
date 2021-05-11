@@ -9,6 +9,11 @@ import com.canhlabs.shorten.share.dto.ShortenDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+
+import static com.canhlabs.shorten.share.AppConstant.EXPIRED_DURATION;
+
 /**
  * Implement for shorten link
  */
@@ -73,9 +78,12 @@ public class ShortenServiceImpl implements ShortenService {
     }
 
     private URL toEntity(String url, String shortLink) {
+        Instant currentTime = Instant.now();
+        Instant expireDate = currentTime.plus(EXPIRED_DURATION, ChronoUnit.DAYS);
         return URL.builder()
                 .hash(shortLink)
                 .originalURL(url)
+                .expirationDate(expireDate)
                 .build();
     }
 }

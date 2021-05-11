@@ -10,7 +10,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.util.Date;
+import java.time.Instant;
 
 @Getter
 @Setter
@@ -26,8 +26,8 @@ public class URL {
     String originalURL;
     @CreationTimestamp
     @Column(name = "create_date")
-    Date createDate;
+    Instant createDate;
     @Column(name = "expirationDate")
-    Date expirationDate;
+    Instant expirationDate;
 
 }
