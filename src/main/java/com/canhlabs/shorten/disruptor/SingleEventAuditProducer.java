@@ -1,8 +1,8 @@
 package com.canhlabs.shorten.disruptor;
 
-import com.canhlabs.shorten.share.dto.ShortenDto;
-import com.lmax.disruptor.BlockingWaitStrategy;
+import com.canhlabs.shorten.share.dto.AuditLogDto;
 import com.lmax.disruptor.RingBuffer;
+import com.lmax.disruptor.SleepingWaitStrategy;
 import com.lmax.disruptor.WaitStrategy;
 import com.lmax.disruptor.dsl.Disruptor;
 import com.lmax.disruptor.dsl.ProducerType;
@@ -16,18 +16,20 @@ import java.util.concurrent.ThreadFactory;
 
 @Component
 @Slf4j
-public class SingleEventShortenProducer implements EventProducer<ShortenDto> {
+public class SingleEventAuditProducer implements EventProducer<AuditLogDto> {
 
     /**
-     * using to save shorten to database
+     * using to write audit log
      */
-    private EventConsumer<ShortenDto> consumer;
-    private RingBuffer<ValueEvent<ShortenDto>> ringBuffer;
+    private EventConsumer<AuditLogDto> consumer;
+    private RingBuffer<ValueEvent<AuditLogDto>> ringBuffer;
 
     @Autowired
-    public void injectConsumer(SingleEventShortenConsumer consumer) {
+    public void injectConsumer(SingleEventAuditConsumer consumer) {
         this.consumer = consumer;
     }
+
+
 
     /**
      * start Disruptor for application
@@ -40,35 +42,32 @@ public class SingleEventShortenProducer implements EventProducer<ShortenDto> {
         // SleepingWaitStrategy() -> similar BlockingWaitStrategy, using in case need to write log.
         // YieldingWaitStrategy() -> Using in case need  high performance
         //  BusySpinWaitStrategy() -> best performance,
-        WaitStrategy waitStrategy = new BlockingWaitStrategy();
-        Disruptor<ValueEvent<ShortenDto>> disruptor
+        WaitStrategy waitStrategy = new SleepingWaitStrategy();
+        Disruptor<ValueEvent<AuditLogDto>> disruptor
                 = new Disruptor<>(
-                ValueEvent.EVENT_SHORTEN_FACTORY,
+                ValueEvent.EVENT_AUDIT_FACTORY,
                 1024,
                 threadFactory,
                 ProducerType.SINGLE,
                 waitStrategy);
         disruptor.handleEventsWith(consumer.getEventHandler());
         this.ringBuffer = disruptor.start();
-        log.info("Disruptor for shorten event was started....");
 
     }
 
     /**
-     * Transport url data to rings buffer
+     * Transport audit data to rings buffer
      * @param data hold the data need to push to ringBuffer
      */
     @Override
-    public void startProducing(ValueEvent<ShortenDto> data) {
+    public void startProducing(ValueEvent<AuditLogDto> data) {
         produce(ringBuffer, data);
     }
 
-    private void produce(final RingBuffer<ValueEvent<ShortenDto>> ringBuffer, ValueEvent<ShortenDto> data) {
+    private void produce(final RingBuffer<ValueEvent<AuditLogDto>> ringBuffer, ValueEvent<AuditLogDto> data) {
         long sequenceId = ringBuffer.next();
-        ValueEvent<ShortenDto> valueEvent = ringBuffer.get(sequenceId);
+        ValueEvent<AuditLogDto> valueEvent = ringBuffer.get(sequenceId);
         valueEvent.setValue(data.getValue());
         ringBuffer.publish(sequenceId);
-
-
     }
 }

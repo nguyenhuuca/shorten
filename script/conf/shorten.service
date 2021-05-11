@@ -1,0 +1,18 @@
+[Unit]
+Description=RO-SYSTEM
+After=network.target
+
+[Service]
+Environment="JAVA_HOME=/usr/jre1.8.0_231"
+Type=forking
+User=root
+WorkingDirectory=/opt/canh-labs/run_dir/bin
+PIDFile=/opt/canh-labs/run_dir/pid/shorten.pid
+ExecStart=/bin/sh /opt/canh-labs/run_dir/bin/startServer.sh
+SuccessExitStatus=143
+TimeoutStartSec=200
+Restart=always
+RestartSec=30
+
+[Install]
+WantedBy=multi-user.target

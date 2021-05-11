@@ -19,4 +19,11 @@ public interface ShortenService {
      *
      */
     void saveShortenLink(ShortenDto shortenDto);
+
+    /**
+     * Using to get original link
+     * @param id the hash key is generated
+     * @return original link
+     */
+    String getOriginLink(String id);
 }
