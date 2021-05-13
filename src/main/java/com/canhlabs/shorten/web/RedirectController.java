@@ -21,7 +21,9 @@ public class RedirectController {
     @GetMapping(value = "{id:[r][a-zA-Z0-9]+}")
     public RedirectView redirectUrl(@PathVariable String id) {
         log.info("Received shortened url to redirect: " + id);
-        String redirectUrlString = shortenService.getOriginLink(id);
+        // remove prefix 'r'
+        String hash = id.substring(1);
+        String redirectUrlString = shortenService.getOriginLink(hash);
         RedirectView redirectView = new RedirectView();
         redirectView.setUrl(redirectUrlString);
         return redirectView;
