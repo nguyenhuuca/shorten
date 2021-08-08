@@ -63,7 +63,7 @@ jobs:
         PORT: ${{ secrets.PORT }}
         KEY: ${{ secrets.SSH_DO_SECRET_KEY }}
       with:
-        source: "shorten/shorten/target/shorten-1.0-SNAPSHOT.jar"
+        source: "/home/runner/work/shorten/shorten/target/shorten-1.0-SNAPSHOT.jar"
         target: "/opt/testCIID/"
         
     - name: Executing remote  command
