@@ -38,6 +38,16 @@ jobs:
 
     - name: Build with Maven
       run:  mvn -B package --file pom.xml
+      
+    - name: Upload
+      run: mkdir staging && cp target/shorten-1.0-SNAPSHOT.jar staging
+      
+    - uses: actions/upload-artifact@v1
+      with:
+        name: Package
+        path: staging
+      
+    
 
     #- name: Publish to GitHub Packages Apache Maven
     #  run: mvn deploy -s $GITHUB_WORKSPACE/settings.xml
