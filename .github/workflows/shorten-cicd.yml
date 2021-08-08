@@ -78,7 +78,7 @@ jobs:
         USERNAME: ${{ secrets.SSH_USER }}
         PORT: ${{ secrets.PORT }}
         KEY: ${{ secrets.SSH_DO_SECRET_KEY }}
-        script: ls -al /opt/testCIID
+        script: sudo ls -al /opt/testCIID
  
       
     
