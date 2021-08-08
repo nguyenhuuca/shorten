@@ -50,7 +50,7 @@ jobs:
       
     - uses: actions/upload-artifact@v1
       with:
-        name: shorten-1.0
+        name: shorten-1.0.jar
         path: staging
         
         
