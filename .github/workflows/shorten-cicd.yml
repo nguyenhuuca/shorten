@@ -50,8 +50,8 @@ jobs:
       
     - uses: actions/upload-artifact@v1
       with:
-        name: shorten-1.0.jar
-        path: staging
+        name: shorten-1.0
+        path: ${{ github.sha }}.tar.gz
         
         
   deploy:
@@ -69,7 +69,7 @@ jobs:
         PORT: ${{ secrets.PORT }}
         KEY: ${{ secrets.SSH_DO_SECRET_KEY }}
       with:
-        source: "staging/shorten-1.0.jar"
+        source: ${{ github.sha }}.tar.gz
         target: "/opt/testCIID/"
 
     - name: Executing remote  command
