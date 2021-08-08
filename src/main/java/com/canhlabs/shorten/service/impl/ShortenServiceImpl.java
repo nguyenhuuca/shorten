@@ -69,8 +69,7 @@ public class ShortenServiceImpl implements ShortenService {
      */
     @Override
     public String getOriginLink(String id) {
-        String hash = id.substring(1);
-        URL url = urlRepo.findAllByHash(hash);
+        URL url = urlRepo.findAllByHash(id);
         if(url != null && url.getOriginalURL() != null) {
             return  url.getOriginalURL();
         }
