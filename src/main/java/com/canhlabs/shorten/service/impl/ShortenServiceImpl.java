@@ -1,11 +1,12 @@
 package com.canhlabs.shorten.service.impl;
 
 import com.canhlabs.shorten.domain.URL;
+import com.canhlabs.shorten.domain.repo.URLRepo;
 import com.canhlabs.shorten.service.KeyGenerateService;
 import com.canhlabs.shorten.service.ShortenService;
-import com.canhlabs.shorten.service.repo.URLRepo;
 import com.canhlabs.shorten.share.AppConstant;
 import com.canhlabs.shorten.share.dto.ShortenDto;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,11 +18,11 @@ import static com.canhlabs.shorten.share.AppConstant.EXPIRED_DURATION;
 /**
  * Implement for shorten link
  */
+@Slf4j
 @Service
 public class ShortenServiceImpl implements ShortenService {
     private KeyGenerateService kgs;
     private URLRepo urlRepo;
-
     // setter injection all dependency
     @Autowired
     public void setKSG(KeyGenerateService kgs) {
@@ -44,10 +45,8 @@ public class ShortenServiceImpl implements ShortenService {
     public String shortenLink(String url) {
         String genStr = kgs.generate();
         String shortLink = AppConstant.BASE_DOMAIN.concat(genStr);
-
         URL entity = toEntity(url, genStr);
         urlRepo.save(entity);
-
         return shortLink;
     }
 

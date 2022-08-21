@@ -1,5 +1,7 @@
 package com.canhlabs.shorten.facade;
 
+import com.canhlabs.shorten.share.dto.ShortenDto;
+
 /**
  * Using to group complicate business domain
  */
@@ -9,5 +11,5 @@ public interface ShortenFacade {
      * @param url origin url
      * @return link was shorten
      */
-    String shortenLink(String url);
+    ShortenDto shortenLink(String url);
 }

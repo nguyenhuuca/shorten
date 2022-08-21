@@ -4,6 +4,7 @@ import com.canhlabs.shorten.config.aop.RateLimitAble;
 import com.canhlabs.shorten.facade.ShortenFacade;
 import com.canhlabs.shorten.share.AppConstant;
 import com.canhlabs.shorten.share.ResultObjectInfo;
+import com.canhlabs.shorten.share.dto.ShortenDto;
 import com.canhlabs.shorten.share.dto.ShortenRequestDto;
 import com.canhlabs.shorten.share.enums.ResultStatus;
 import com.canhlabs.shorten.validator.ShortenValidator;
@@ -52,9 +53,9 @@ public class ShortenController extends BaseController {
      */
     @PostMapping
     @RateLimitAble
-    public ResponseEntity<ResultObjectInfo<String>> shorten(@RequestBody ShortenRequestDto request) {
+    public ResponseEntity<ResultObjectInfo<ShortenDto>> shorten(@RequestBody ShortenRequestDto request) {
         shortenValidator.validate(request.getUrl());
-        return new ResponseEntity<>(ResultObjectInfo.<String>builder()
+        return new ResponseEntity<>(ResultObjectInfo.<ShortenDto>builder()
                 .status(ResultStatus.SUCCESS)
                 .data(shortenFacade.shortenLink(request.getUrl()))
                 .message("Get data succeed")
