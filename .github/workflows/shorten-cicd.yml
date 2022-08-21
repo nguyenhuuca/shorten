@@ -74,7 +74,9 @@ jobs:
           USERNAME: ${{ secrets.SSH_USER }}
           PORT: ${{ secrets.PORT }}
           KEY: ${{ secrets.SSH_DO_SECRET_KEY }}
-          script: sudo ls -al /opt/CICD
+          script: | 
+            sudo mv /opt/canh-labs/shorten/available/shorten-1.0-SNAPSHOT.jar /opt/canh-labs/shorten/available/backup/shorten-1.0-SNAPSHOT.jar
+            sudo cp /opt/CICD/shorten-1.0-SNAPSHOT.jar /opt/canh-labs/shorten/available/shorten-1.0-SNAPSHOT.jar
     #- name: Publish to GitHub Packages Apache Maven
     #  run: mvn deploy -s $GITHUB_WORKSPACE/settings.xml
     #  env:
