@@ -21,25 +21,28 @@ public class QRCodeGeneratorImpl implements QRCodeGenerator {
     @Override
     public void generateQRCodeImage(String text, int width, int height, String filePath) throws WriterException, IOException {
         QRCodeWriter qrCodeWriter = new QRCodeWriter();
-        BitMatrix bitMatrix = qrCodeWriter.encode(text, BarcodeFormat.QR_CODE, width, height);
+        BitMatrix bitMatrix = qrCodeWriter.encode(text, BarcodeFormat.QR_CODE, width, height,
+                com.google.common.collect.ImmutableMap.of(com.google.zxing.EncodeHintType.MARGIN, 0));
 
         Path path = FileSystems.getDefault().getPath(filePath);
         MatrixToImageWriter.writeToPath(bitMatrix, "PNG", path);
     }
 
     @Override
-    public byte[] getQRCodeImage(String text, int width, int height){
+    public byte[] getQRCodeImage(String text, int width, int height) {
         try {
+
             QRCodeWriter qrCodeWriter = new QRCodeWriter();
-            BitMatrix bitMatrix = qrCodeWriter.encode(text, BarcodeFormat.QR_CODE, width, height);
+            BitMatrix bitMatrix = qrCodeWriter.encode(text, BarcodeFormat.QR_CODE, width, height,
+                    com.google.common.collect.ImmutableMap.of(com.google.zxing.EncodeHintType.MARGIN, 0));
 
             ByteArrayOutputStream pngOutputStream = new ByteArrayOutputStream();
-            MatrixToImageConfig con = new MatrixToImageConfig( 0xFF000002 , 0xFFFFC041 ) ;
+            MatrixToImageConfig con = new MatrixToImageConfig(0xFF000002, 0xFFFFC041);
 
-            MatrixToImageWriter.writeToStream(bitMatrix, "PNG", pngOutputStream,con);
+            MatrixToImageWriter.writeToStream(bitMatrix, "PNG", pngOutputStream, con);
             return pngOutputStream.toByteArray();
 
-        } catch ( WriterException | IOException we) {
+        } catch (WriterException | IOException we) {
             throw CustomException.builder()
                     .message("Error get qr code")
                     .status(HttpStatus.INTERNAL_SERVER_ERROR)
