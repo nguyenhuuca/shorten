@@ -79,8 +79,8 @@ jobs:
             sudo mkdir -p /opt/canh-labs/shorten/available/backup
             sudo mv /opt/canh-labs/shorten/available/shorten-1.0-SNAPSHOT.jar /opt/canh-labs/shorten/available/backup/shorten-1.0-SNAPSHOT.jar
             sudo cp /opt/CICD/target/shorten-1.0-SNAPSHOT.jar /opt/canh-labs/shorten/available/shorten-1.0-SNAPSHOT.jar
-            sudo ./opt/canh-labs/shorten/available/stopServer.sh
-            sudo ./opt/canh-labs/shorten/available/startServer.sh
+            sudo . /opt/canh-labs/shorten/available/stopServer.sh
+            sudo . /opt/canh-labs/shorten/available/startServer.sh
     #- name: Publish to GitHub Packages Apache Maven
     #  run: mvn deploy -s $GITHUB_WORKSPACE/settings.xml
     #  env:
