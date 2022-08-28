@@ -34,7 +34,7 @@ public class QRCodeGeneratorImpl implements QRCodeGenerator {
 
             QRCodeWriter qrCodeWriter = new QRCodeWriter();
             BitMatrix bitMatrix = qrCodeWriter.encode(text, BarcodeFormat.QR_CODE, width, height,
-                    com.google.common.collect.ImmutableMap.of(com.google.zxing.EncodeHintType.MARGIN, 0));
+                    com.google.common.collect.ImmutableMap.of(com.google.zxing.EncodeHintType.MARGIN, 1));
 
             ByteArrayOutputStream pngOutputStream = new ByteArrayOutputStream();
             MatrixToImageConfig con = new MatrixToImageConfig(0xFF000002, 0xFFFFC041);
