@@ -1,4 +1,4 @@
-package com.canhlabs.service.controller;
+package com.canhlabs.controller;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
