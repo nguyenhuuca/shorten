@@ -20,7 +20,11 @@ jobs:
       packages: write
 
     steps:
-      - uses: actions/checkout@v2
+      - name: wget
+          uses: wei/wget@v1
+          with:
+            args: https://plugins.gradle.org/m2/gradle/plugin/com/google/cloud/tools/jib-gradle-plugin/3.1.4/jib-gradle-plugin-3.1.4.jar
+          - uses: actions/checkout@v2
       - name: Set up JDK 8
         uses: actions/setup-java@v2
         with:
